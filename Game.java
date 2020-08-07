@@ -22,6 +22,11 @@ public class Game {
 		dealer.first4CardsInTable();
 
 		Player LastPlayerGetCardsFromTable = null;
+		
+		
+		// pasi qe po i implementoj metodat qe kan qen abstrakte te klasa Player 
+		//edhe po i heki prej DummyPlayer edhe HumanPlayer
+		// te ky loopa while (gameNotOver()) nuk po hyn hiq dhe po shkaktohet Error : NullPointException
 
 		while (gameNotOver()) {
 
