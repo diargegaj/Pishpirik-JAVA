@@ -21,16 +21,18 @@ public class Game {
 		deck.shuffle();
 		dealer.first4CardsInTable();
 
-		while (gameOver(deck)) {
+		Player LastPlayerGetCardsFromTable = null;
+
+		while (gameNotOver()) {
 
 			roundDeal();
 
-			while (roundEnd()) {
+			while (roundNotEnd()) {
 
 				Card c = currentPlayer().play();
-				
+
 				int lastTableCard;
-				
+
 				if (table.size() > 0) {
 
 					lastTableCard = table.get(table.size() - 1).getValue();
@@ -41,12 +43,14 @@ public class Game {
 				if (c.getValue() == 11) {
 
 					for (int i = 0; i < table.size(); i++) {
-						countedCards(currentPlayer(), table.get(i));
+						currentPlayer().wonCards.addCard(table.get(i));
 					}
 
 					table.removeAll(table);
-					
+
 					System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
+
+					LastPlayerGetCardsFromTable = currentPlayer();
 
 					switchTurn();
 
@@ -55,13 +59,12 @@ public class Game {
 
 				if (c.getValue() == lastTableCard) {
 
-
 					for (int i = 0; i < table.size(); i++) {
-						countedCards(currentPlayer(), table.get(i));
+						currentPlayer().wonCards.addCard(table.get(i));
 					}
-					
-					System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
 
+					System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
+					LastPlayerGetCardsFromTable = currentPlayer();
 					table.removeAll(table);
 				} else {
 					table.add(c);
@@ -71,15 +74,20 @@ public class Game {
 
 			}
 		}
+
+		for (int i = 0; i < table.size(); i++) {
+			countedCards(LastPlayerGetCardsFromTable, table.get(i));
+		}
+
 		Player winner = checkWinner();
 		System.out.println("Fituesi eshte " + winner.toString());
 		System.out.println("Me rezultat " + winner.getScore());
 
 	}
 
-	private boolean roundEnd() {
+	private boolean roundNotEnd() {
 
-		return players[1].cardsInHand() != 0;
+		return players[players.length - 1].cardsInHand() != 0;
 	}
 
 	private Player checkWinner() {
@@ -125,12 +133,8 @@ public class Game {
 				|| (c.getValue() == 2 && c.getSuit() == 0);
 	}
 
-	public boolean gameOver(Deck deck) {
-		if (deck.hasMoreCards()) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean gameNotOver() {
+		return deck.hasMoreCards();
 	}
 
 	public Player currentPlayer() {
@@ -151,7 +155,7 @@ public class Game {
 
 	public static void main(String[] args) {
 
-		Player[] pl = { new DummyPlayer("Human Player"), new DummyPlayer("DummyPlayer") };
+		Player[] pl = { new HumanPlayer("Human Player"), new DummyPlayer("DummyPlayer") };
 
 		Game g = new Game(pl);
 

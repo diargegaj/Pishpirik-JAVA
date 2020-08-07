@@ -25,11 +25,7 @@ public class HumanPlayer extends Player {
 		this.score = score;
 	}
 	
-	public int cardsInHand() {
-		
-		return hand.count();
-		
-	}
+	
 
 	public Card play() {
 
@@ -44,21 +40,9 @@ public class HumanPlayer extends Player {
 
 	}
 	
-	public Card throwCard(int cardNumber) {
-		
-		Card c = hand.getCard(cardNumber - 1);
-		hand.removeCard(c);
-		
-		return c;
-		
-	}
+	
 
-	public void cardsToString() {
-		System.out.println("Letrat e tua jan:");
-		for (int i = 0; i < hand.count(); i++) {
-			System.out.println((i + 1)+ ".  " + hand.getCard(i).toString());
-		}
-	}
+	
 
 	public String toString() {
 		return name;

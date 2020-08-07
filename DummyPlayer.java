@@ -21,10 +21,7 @@ public class DummyPlayer extends Player {
 		this.score = score;
 	}
 
-	@Override
-	public int cardsInHand() {
-		return hand.count();
-	}
+	
 	
 	public void accept(Card c) {
 
@@ -34,6 +31,13 @@ public class DummyPlayer extends Player {
 
 	@Override
 	public Card play() {
+		
+		try {
+			System.out.println("duke analizuar... ");
+			Thread.sleep(100);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		int numberOfCardToThrow = rnd.nextInt(cardsInHand());
 		
@@ -41,31 +45,9 @@ public class DummyPlayer extends Player {
 
 		System.out.println(name + " luajti " + cardPlayed.toString());
 		
-		try {
-			System.out.println("duke analizuar... ");
-			Thread.sleep(100);
-		} catch (Exception e) {
-			e.fillInStackTrace();
-		}
+		
 		
 		return cardPlayed;
-	}
-
-	@Override
-	public void cardsToString() {
-		System.out.println("Letrat e tua jan:");
-		for (int i = 0; i < hand.count(); i++) {
-			System.out.println((i + 1) + ".  " + hand.getCard(i).toString());
-		}
-
-	}
-
-	@Override
-	public Card throwCard(int cardNumber) {
-		Card c = hand.getCard(cardNumber);
-		hand.removeCard(c);
-
-		return c;
 	}
 	
 	public String toString() {

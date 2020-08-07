@@ -4,6 +4,7 @@ abstract public class Player {
 
 	protected String name;
 	protected Hand hand;
+	protected Hand wonCards;
 	protected int score;
 	protected Scanner sc;
 
@@ -27,7 +28,7 @@ abstract public class Player {
 			System.out.println(c.toString());
 		}
 	}
-	
+
 	public int getScore() {
 		return score;
 	}
@@ -35,13 +36,29 @@ abstract public class Player {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
-	abstract public int cardsInHand();
+
+	public int cardsInHand() {
+
+		return hand.count();
+
+	}
 
 	abstract public Card play();
-	
-	abstract public void cardsToString();
-	
-	abstract public Card throwCard(int cardNumber);
+
+	public void cardsToString() {
+		System.out.println("Letrat e tua jan:");
+		for (int i = 0; i < hand.count(); i++) {
+			System.out.println((i + 1)+ ".  " + hand.getCard(i).toString());
+		}
+	}
+
+public Card throwCard(int cardNumber) {
+		
+		Card c = hand.getCard(cardNumber - 1);
+		hand.removeCard(c);
+		
+		return c;
+		
+	}
 
 }
