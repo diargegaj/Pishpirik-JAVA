@@ -31,8 +31,8 @@ public class Deck {
 			int rand = (int) (Math.random() * (lastIndex + 1));
 
 			Card temp = pack[lastIndex];// letra e i-te
-			pack[lastIndex] = pack[rand];// letra e i-te është letra rastes.
-			pack[rand] = temp;// letra e rast. është e i-ta
+			pack[lastIndex] = pack[rand];// letra e i-te eshte letra rastes.
+			pack[rand] = temp;// letra e rast. eshte e i-ta
 		}
 		usedCards = 0;
 	}
