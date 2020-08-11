@@ -25,18 +25,18 @@ public class Dealer {
 		return deck.hasMoreCards();
 	}
 	
-	public void first4CardsInTable() {
+	public void first4CardsInTable(Pile table) {
 		for (int i = 0; i < 4; i++) {
 			Card card = deal();
 			
 			if (card.getValue() == 11) {
 				i-=1;
-				deck.addCards(card, i + 1);
+				deck.addCards(card, i);
 				deck.shuffle();
 				continue;
 			}
 			
-			Game.table.add(card);
+			table.shtoLeter(card);
 
 			System.out.println("letrat ne mes jan: " + card.toString());
 		}

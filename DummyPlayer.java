@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class DummyPlayer extends Player {
 
-	Hand hand;
 	private int score;
 	Random rnd;
 
@@ -39,7 +38,7 @@ public class DummyPlayer extends Player {
 			e.printStackTrace();
 		}
 
-		int numberOfCardToThrow = rnd.nextInt(cardsInHand());
+		int numberOfCardToThrow = rnd.nextInt(cardsInHand()) + 1;
 		
 		Card cardPlayed = throwCard(numberOfCardToThrow);
 

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Game {
 
-	static ArrayList<Card> table;
+	Pile table;
 	Deck deck;
 	Dealer dealer;
 	Player[] players;
@@ -13,20 +13,15 @@ public class Game {
 		deck = new Deck();
 		dealer = new Dealer(deck);
 		turn = 0;
-		table = new ArrayList<>();
+		table = new Pile();
 	}
 
 	public void play() {
 
 		deck.shuffle();
-		dealer.first4CardsInTable();
+		dealer.first4CardsInTable(table);
 
-		Player LastPlayerGetCardsFromTable = null;
-		
-		
-		// pasi qe po i implementoj metodat qe kan qen abstrakte te klasa Player 
-		//edhe po i heki prej DummyPlayer edhe HumanPlayer
-		// te ky loopa while (gameNotOver()) nuk po hyn hiq dhe po shkaktohet Error : NullPointException
+		Player lastPlayerGetCardsFromTable = null;
 
 		while (gameNotOver()) {
 
@@ -35,27 +30,25 @@ public class Game {
 			while (roundNotEnd()) {
 
 				Card c = currentPlayer().play();
-
 				int lastTableCard;
-
-				if (table.size() > 0) {
-
-					lastTableCard = table.get(table.size() - 1).getValue();
-				} else {
+				
+				if (table.ktheLetrenEFundit() != null) {
+					lastTableCard = table.ktheLetrenEFundit().getValue();
+				}else {
 					lastTableCard = -1;
 				}
 
 				if (c.getValue() == 11) {
 
-					for (int i = 0; i < table.size(); i++) {
-						currentPlayer().wonCards.addCard(table.get(i));
+					for (int i = 0; i < table.saLetraJan(); i++) {
+						currentPlayer().wonCards.addCard(new Card(1, 1));
 					}
 
-					table.removeAll(table);
+					table.pastroLetrat();
 
 					System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
 
-					LastPlayerGetCardsFromTable = currentPlayer();
+					lastPlayerGetCardsFromTable = currentPlayer();
 
 					switchTurn();
 
@@ -64,15 +57,15 @@ public class Game {
 
 				if (c.getValue() == lastTableCard) {
 
-					for (int i = 0; i < table.size(); i++) {
-						currentPlayer().wonCards.addCard(table.get(i));
+					for (int i = 0; i < table.saLetraJan(); i++) {
+						currentPlayer().wonCards.addCard(table.ktheLeter(i));
 					}
 
 					System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
-					LastPlayerGetCardsFromTable = currentPlayer();
-					table.removeAll(table);
+					lastPlayerGetCardsFromTable = currentPlayer();
+					table.pastroLetrat();;
 				} else {
-					table.add(c);
+					table.shtoLeter(c);
 				}
 
 				switchTurn();
@@ -80,8 +73,8 @@ public class Game {
 			}
 		}
 
-		for (int i = 0; i < table.size(); i++) {
-			countedCards(LastPlayerGetCardsFromTable, table.get(i));
+		for (int i = 0; i < table.saLetraJan(); i++) {
+			countedCards(lastPlayerGetCardsFromTable, table.ktheLeter(i));
 		}
 
 		Player winner = checkWinner();
@@ -96,19 +89,15 @@ public class Game {
 	}
 
 	private Player checkWinner() {
-		int[] playersScore = new int[players.length];
-
-		for (int i = 0; i < players.length; i++) {
-			playersScore[i] = players[i].getScore();
-
-		}
-
+		
 		int maxScore = 0;
 		Player winner = null;
-		for (int i = 0; i < playersScore.length; i++) {
-			if (playersScore[i] > maxScore) {
+		for (int i = 0; i < players.length; i++) {
+			
+			if (players[i].getScore() > maxScore) {
 				winner = players[i];
 			}
+			
 		}
 
 		return winner;
@@ -165,6 +154,7 @@ public class Game {
 		Game g = new Game(pl);
 
 		g.play();
+
 	}
 
 }

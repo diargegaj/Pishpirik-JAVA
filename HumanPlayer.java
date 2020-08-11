@@ -1,7 +1,6 @@
 
 public class HumanPlayer extends Player {
 
-	Hand hand;
 	private int score;
 
 	public HumanPlayer(String name) {
@@ -24,25 +23,18 @@ public class HumanPlayer extends Player {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
-	
 
 	public Card play() {
 
 		cardsToString();
 
 		System.out.println("Cilen leter deshiron me hedh: ");
-		
+
 		int cardToThrow = sc.nextInt();
-		
+
 		return throwCard(cardToThrow);
-		
 
 	}
-	
-	
-
-	
 
 	public String toString() {
 		return name;
