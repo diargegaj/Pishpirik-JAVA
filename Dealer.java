@@ -29,12 +29,13 @@ public class Dealer {
 		for (int i = 0; i < 4; i++) {
 			Card card = deal();
 			
-			if (card.getValue() == 11) {
-				i-=1;
-				deck.addCards(card, i);
-				deck.shuffle();
-				continue;
-			}
+//			if (card.getValue() == 11) {
+//				
+//				deck.addCards(card, i);
+//				deck.shuffle();
+//				i-=1;
+//				continue;
+//			}
 			
 			table.shtoLeter(card);
 

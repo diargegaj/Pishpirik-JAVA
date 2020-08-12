@@ -31,12 +31,12 @@ public class DummyPlayer extends Player {
 	@Override
 	public Card play() {
 		
-		try {
-			System.out.println("duke analizuar... ");
-			Thread.sleep(100);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			System.out.println("duke analizuar... ");
+//			Thread.sleep(100);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 
 		int numberOfCardToThrow = rnd.nextInt(cardsInHand()) + 1;
 		
