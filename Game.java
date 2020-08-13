@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 public class Game {
 
@@ -38,97 +37,121 @@ public class Game {
 					lastTableCard = -1;
 				}
 
-				if (table.saLetraJan() == 1 && table.ktheLetrenEFundit().getValue() == 11 && c.getValue() == 11) {
+				if (table.saLetraJan() == 1) {
 
-					boolean checkIfSomeoneHasPishpirik = false;
+					if (lastTableCard == 11 && c.getValue() == 11) {
 
-					for (int i = 0; i < players.length; i++) {
+						boolean checkIfSomeoneHasPishpirik = false;
 
-						if (currentPlayer().equals(players[i])) {
-							continue;
+						for (int i = 0; i < players.length; i++) {
+
+							if (currentPlayer().equals(players[i])) {
+								continue;
+							}
+
+							if (players[i].getJanarPishpiriks() > 0) {
+								int prevJanarPishpiriks = players[i].getJanarPishpiriks();
+								players[i].setPishpiriks(prevJanarPishpiriks - 1);
+								checkIfSomeoneHasPishpirik = true;
+								table.pastroLetrat();
+							}
 						}
 
-						if (players[i].getJanarPishpiriks() > 0) {
-							int prevJanarPishpiriks = players[i].getJanarPishpiriks();
-							players[i].setPishpiriks(prevJanarPishpiriks - 1);
-							checkIfSomeoneHasPishpirik = true;
+						if (!checkIfSomeoneHasPishpirik) {
+
+							int prevJanarPishpiriks = currentPlayer().getJanarPishpiriks();
+							currentPlayer().setJanarPishpiriks(prevJanarPishpiriks + 1);
 							table.pastroLetrat();
+							
+							System.out.println(currentPlayer() + " beri pishpirik me " + c.toString());
 						}
+						
+						lastPlayerGetCardsFromTable = currentPlayer();
+						
+						switchTurn();
+
+						continue;
+
 					}
 
-					if (!checkIfSomeoneHasPishpirik) {
+					if (lastTableCard == c.getValue()) {
 
-						int prevJanarPishpiriks = currentPlayer().getJanarPishpiriks();
-						currentPlayer().setJanarPishpiriks(prevJanarPishpiriks + 1);
+						boolean checkIfSomeoneHasPishpirik = false;
 
-					}
+						for (int i = 0; i < players.length; i++) {
 
-					continue;
+							if (currentPlayer().equals(players[i])) {
+								continue;
+							}
 
-				}
-
-				if (table.saLetraJan() == 1 && table.ktheLetrenEFundit().getValue() == c.getValue()) {
-					boolean checkIfSomeoneHasPishpirik = false;
-
-					for (int i = 0; i < players.length; i++) {
-
-						if (currentPlayer().equals(players[i])) {
-							continue;
+							if (players[i].getPishpiriks() > 0) {
+								int prevPishpiriks = players[i].getPishpiriks();
+								players[i].setPishpiriks(prevPishpiriks - 1);
+								checkIfSomeoneHasPishpirik = true;
+								table.pastroLetrat();
+								
+								System.out.println(currentPlayer() + " ja prishi pishpirikin " + players[i]);
+							}
 						}
 
-						if (players[i].getPishpiriks() > 0) {
-							int prevPishpiriks = players[i].getPishpiriks();
-							players[i].setPishpiriks(prevPishpiriks - 1);
-							checkIfSomeoneHasPishpirik = true;
+						if (!checkIfSomeoneHasPishpirik) {
+							int prevPishpiriks = currentPlayer().getPishpiriks();
+							currentPlayer().setPishpiriks(prevPishpiriks + 1);
 							table.pastroLetrat();
+							
+							System.out.println(currentPlayer() + " beri pishpirik me " + c.toString());
 						}
+
+						lastPlayerGetCardsFromTable = currentPlayer();
+						switchTurn();
+						
+						continue;
+
 					}
-
-					if (!checkIfSomeoneHasPishpirik) {
-						int prevPishpiriks = currentPlayer().getPishpiriks();
-						currentPlayer().setPishpiriks(prevPishpiriks + 1);
-						table.pastroLetrat();
-					}
-
-					continue;
-				}
-
-				if (c.getValue() == 11) {
-
-					for (int i = 0; i < table.saLetraJan(); i++) {
-						currentPlayer().wonCards.addCard(table.ktheLeter(i));
-					}
-
-					table.pastroLetrat();
-
-					System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
-
-					lastPlayerGetCardsFromTable = currentPlayer();
-
-					switchTurn();
-
-					continue;
-				}
-
-				if (c.getValue() == lastTableCard) {
-
-					for (int i = 0; i < table.saLetraJan(); i++) {
-						currentPlayer().wonCards.addCard(table.ktheLeter(i));
-					}
-
-					System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
-					lastPlayerGetCardsFromTable = currentPlayer();
-					table.pastroLetrat();
-					;
 				} else {
-					table.shtoLeter(c);
+
+					if (c.getValue() == 11) {
+
+						table.shtoLeter(c);
+
+						for (int i = 0; i < table.saLetraJan(); i++) {
+							currentPlayer().wonCards.addCard(table.ktheLeter(i));
+						}
+
+						table.pastroLetrat();
+
+						System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
+
+						lastPlayerGetCardsFromTable = currentPlayer();
+
+						switchTurn();
+
+						continue;
+					}
+
+					if (c.getValue() == lastTableCard) {
+
+						table.shtoLeter(c);
+
+						for (int i = 0; i < table.saLetraJan(); i++) {
+							currentPlayer().wonCards.addCard(table.ktheLeter(i));
+						}
+
+						System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
+						lastPlayerGetCardsFromTable = currentPlayer();
+						table.pastroLetrat();
+						
+					} else {
+						table.shtoLeter(c);
+					}
 				}
 
 				switchTurn();
 
 			}
 		}
-
+		
+		System.out.println("Letrat ne pile " + table.saLetraJan());
 		for (int i = 0; i < table.saLetraJan(); i++) {
 			lastPlayerGetCardsFromTable.wonCards.addCard(table.ktheLeter(i));
 		}
@@ -137,6 +160,12 @@ public class Game {
 		System.out.println("Fituesi eshte " + winner.toString());
 		System.out.println("Me rezultat " + winner.getScore());
 
+		System.out.println("=================================================================");
+		
+		
+		for (int i = 0; i < players.length; i++) {
+			System.out.println(players[i] + " score=>" + players[i].getScore());
+		}
 	}
 
 	private boolean roundNotEnd() {
@@ -164,7 +193,7 @@ public class Game {
 			if (players[i].getJanarPishpiriks() > 0) {
 				int prevScore = players[i].getScore();
 				int janarPishpiriks = players[i].getJanarPishpiriks();
-				players[i].setScore(prevScore + (10 * janarPishpiriks));
+				players[i].setScore(prevScore + (20 * janarPishpiriks));
 			}
 
 			if (winner.getScore() < players[i].getScore()) {
@@ -224,7 +253,6 @@ public class Game {
 		Player[] pl = { new DummyPlayer("pl 1"), new DummyPlayer("pl 2") };
 
 		Game g = new Game(pl);
-
 
 		g.play();
 

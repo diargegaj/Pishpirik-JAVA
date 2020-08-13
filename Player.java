@@ -7,8 +7,8 @@ abstract public class Player {
 	protected Hand wonCards;
 	protected int score;
 	protected Scanner sc;
-	protected int pishpiriks;
-	protected int janarPishpiriks;
+	protected int pishpiriks = 0;
+	protected int janarPishpiriks = 0;
 
 	public Player(String name) {
 		this.name = name;
@@ -73,7 +73,7 @@ abstract public class Player {
 
 	public Card throwCard(int cardNumber) {
 
-		Card c = hand.getCard(cardNumber - 1);
+		Card c = hand.getCard(cardNumber);
 		hand.removeCard(c);
 
 		return c;
@@ -98,38 +98,7 @@ abstract public class Player {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Player other = (Player) obj;
-		if (hand == null) {
-			if (other.hand != null)
-				return false;
-		} else if (!hand.equals(other.hand))
-			return false;
-		if (janarPishpiriks != other.janarPishpiriks)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (pishpiriks != other.pishpiriks)
-			return false;
-		if (sc == null) {
-			if (other.sc != null)
-				return false;
-		} else if (!sc.equals(other.sc))
-			return false;
-		if (score != other.score)
-			return false;
-		if (wonCards == null) {
-			if (other.wonCards != null)
-				return false;
-		} else if (!wonCards.equals(other.wonCards))
-			return false;
-		return true;
+		return false;
 	}
 	
 	

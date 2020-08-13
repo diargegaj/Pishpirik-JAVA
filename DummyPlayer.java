@@ -38,9 +38,9 @@ public class DummyPlayer extends Player {
 //			e.printStackTrace();
 //		}
 
-		int numberOfCardToThrow = rnd.nextInt(cardsInHand()) + 1;
-		
-		Card cardPlayed = throwCard(numberOfCardToThrow);
+		//int numberOfCardToThrow = rnd.nextInt(cardsInHand()) + 1;
+		int numberOfCardToThrow = 0;
+		Card cardPlayed = throwCard(0);
 
 		System.out.println(name + " luajti " + cardPlayed.toString());
 		

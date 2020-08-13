@@ -23,7 +23,7 @@ public class Pile {
 	
 	public Card ktheLetrenEFundit() {
 		
-		if (!(cards.size() < 1)) {
+		if (cards.size() > 0) {
 			return cards.get(cards.size() - 1);
 		}
 		
