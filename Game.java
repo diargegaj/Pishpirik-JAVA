@@ -7,13 +7,11 @@ public class Game {
 	Deck deck;
 	Dealer dealer;
 	Deque<Player> players;
-	private int turn;
 
 	public Game(Deque<Player> player) {
 		players = player;
 		deck = new Deck();
 		dealer = new Dealer(deck);
-		turn = 0;
 		table = new Pile();
 	}
 
@@ -41,10 +39,11 @@ public class Game {
 
 				if (table.saLetraJan() == 1) {
 
-					if (lastTableCard == 11 && c.getValue() == 11) {
+					if (lastTableCard == Card.JACK && c.getValue() == Card.JACK) {
 
 						boolean checkIfSomeoneHasPishpirik = false;
 
+						table.shtoLeter(c);
 						for (Player player : players) {
 
 							if (currentPlayer().equals(player)) {
@@ -55,7 +54,8 @@ public class Game {
 								int prevJanarPishpiriks = player.getJanarPishpiriks();
 								player.setPishpiriks(prevJanarPishpiriks - 1);
 								checkIfSomeoneHasPishpirik = true;
-								table.pastroLetrat();
+								System.out.println(currentPlayer() + " ja prishi Janar Pishpirikun " + player);
+								
 							}
 						}
 
@@ -63,11 +63,15 @@ public class Game {
 
 							int prevJanarPishpiriks = currentPlayer().getJanarPishpiriks();
 							currentPlayer().setJanarPishpiriks(prevJanarPishpiriks + 1);
-							table.pastroLetrat();
 
 							System.out.println(currentPlayer() + " beri pishpirik me " + c.toString());
 						}
 
+						for (int i = 0; i < table.saLetraJan(); i++) {
+							currentPlayer().wonCards.addCard(table.ktheLeter(i));
+						}
+						
+						table.pastroLetrat();
 						lastPlayerGetCardsFromTable = currentPlayer();
 
 						switchTurn();
@@ -80,6 +84,8 @@ public class Game {
 
 						boolean checkIfSomeoneHasPishpirik = false;
 
+						table.shtoLeter(c);
+						
 						for (Player player : players) {
 
 							if (currentPlayer().equals(player)) {
@@ -90,7 +96,6 @@ public class Game {
 								int prevPishpiriks = player.getPishpiriks();
 								player.setPishpiriks(prevPishpiriks - 1);
 								checkIfSomeoneHasPishpirik = true;
-								table.pastroLetrat();
 
 								System.out.println(currentPlayer() + " ja prishi pishpirikin " + player);
 							}
@@ -104,15 +109,36 @@ public class Game {
 							System.out.println(currentPlayer() + " beri pishpirik me " + c.toString());
 						}
 
+						for (int i = 0; i < table.saLetraJan(); i++) {
+							currentPlayer().wonCards.addCard(table.ktheLeter(i));
+						}
+						
+						table.pastroLetrat();
 						lastPlayerGetCardsFromTable = currentPlayer();
+
 						switchTurn();
 
 						continue;
 
 					}
-				} else {
-
+				}else if (table.saLetraJan() == 0) {
+					
+					table.shtoLeter(c);
+					
 					if (c.getValue() == 11) {
+						System.out.println(currentPlayer() + " ju ka djeg lertra " + c);
+					}
+					
+					
+					switchTurn();
+					
+					continue;
+					
+					
+
+				}else {
+
+					if (c.getValue() == Card.JACK) {
 
 						table.shtoLeter(c);
 
@@ -256,7 +282,7 @@ public class Game {
 		Deque<Player> pl = new LinkedList<>();
 
 		pl.add(new DummyPlayer("pl 1"));
-		pl.add(new HumanPlayer("pl 2"));
+		pl.add(new DummyPlayer("pl 2"));
 
 		Game g = new Game(pl);
 

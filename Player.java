@@ -79,27 +79,6 @@ abstract public class Player {
 		return c;
 
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((hand == null) ? 0 : hand.hashCode());
-		result = prime * result + janarPishpiriks;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + pishpiriks;
-		result = prime * result + ((sc == null) ? 0 : sc.hashCode());
-		result = prime * result + score;
-		result = prime * result + ((wonCards == null) ? 0 : wonCards.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		return false;
-	}
 	
 	
 

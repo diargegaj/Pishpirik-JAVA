@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
 
-	private Card[] pack;
-	private int usedCards;
+	private ArrayList<Card> pack;
+	private int usedCards = 0;
 
 	public Deck() {
 		this(false);
@@ -11,41 +12,32 @@ public class Deck {
 
 	public Deck(boolean hasJoker) {
 		if (hasJoker)
-			pack = new Card[54];
+			pack = new ArrayList<>(54);
 		else
-			pack = new Card[52];
-		int created = 0; // sa karta kemi krijuar deri me tani
+			pack = new ArrayList<>(52);
 		for (int suit = 0; suit <= 3; suit++) {
 			for (int value = 1; value <= 13; value++) {
-				pack[created] = new Card(value, suit);
-				created++;
+				pack.add(new Card(value, suit));
 			}
 		}
 		if (hasJoker) {
-			pack[created++] = new Card(1, Card.JOKER);
-			pack[created++] = new Card(2, Card.JOKER);
+			pack.add(new Card(1, Card.JOKER));
+			pack.add(new Card(2, Card.JOKER));
 		}
 	}
 
 	public void shuffle() {
-		for (int lastIndex = pack.length - 1; lastIndex > 0; lastIndex--) {
-			int rand = (int) (Math.random() * (lastIndex + 1));
-
-			Card temp = pack[lastIndex];// letra e i-te
-			pack[lastIndex] = pack[rand];// letra e i-te eshte letra rastes.
-			pack[rand] = temp;// letra e rast. eshte e i-ta
-		}
-		usedCards = 0;
+		Collections.shuffle(pack);
 	}
 
 	public int remainingCards() {
-		return pack.length - usedCards;
+		return pack.size() - usedCards;
 	}
 
 	public Card nextCard() {
 		if (hasMoreCards()) {
 			usedCards++;
-			return pack[usedCards - 1];
+			return pack.get(usedCards -1);
 		} else {
 			System.out.println("Ska me letra.");
 			return null;
@@ -53,15 +45,15 @@ public class Deck {
 	}
 
 	public boolean containsJokers() {
-		return pack.length == 54;
+		return pack.size() == 54;
 	}
 
 	public boolean hasMoreCards() {
-		return usedCards != pack.length;
+		return usedCards != pack.size();
 	}
 	
-	public void addCards(Card c, int i) {
-		pack[pack.length - i] = c;
+	public void addCards(Card c) {
+		pack.add(c);
 	}
 
 }
