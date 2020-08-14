@@ -1,13 +1,15 @@
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class Game {
 
 	Pile table;
 	Deck deck;
 	Dealer dealer;
-	Player[] players;
+	Deque<Player> players;
 	private int turn;
 
-	public Game(Player[] player) {
+	public Game(Deque<Player> player) {
 		players = player;
 		deck = new Deck();
 		dealer = new Dealer(deck);
@@ -43,15 +45,15 @@ public class Game {
 
 						boolean checkIfSomeoneHasPishpirik = false;
 
-						for (int i = 0; i < players.length; i++) {
+						for (Player player : players) {
 
-							if (currentPlayer().equals(players[i])) {
+							if (currentPlayer().equals(player)) {
 								continue;
 							}
 
-							if (players[i].getJanarPishpiriks() > 0) {
-								int prevJanarPishpiriks = players[i].getJanarPishpiriks();
-								players[i].setPishpiriks(prevJanarPishpiriks - 1);
+							if (player.getJanarPishpiriks() > 0) {
+								int prevJanarPishpiriks = player.getJanarPishpiriks();
+								player.setPishpiriks(prevJanarPishpiriks - 1);
 								checkIfSomeoneHasPishpirik = true;
 								table.pastroLetrat();
 							}
@@ -62,12 +64,12 @@ public class Game {
 							int prevJanarPishpiriks = currentPlayer().getJanarPishpiriks();
 							currentPlayer().setJanarPishpiriks(prevJanarPishpiriks + 1);
 							table.pastroLetrat();
-							
+
 							System.out.println(currentPlayer() + " beri pishpirik me " + c.toString());
 						}
-						
+
 						lastPlayerGetCardsFromTable = currentPlayer();
-						
+
 						switchTurn();
 
 						continue;
@@ -78,19 +80,19 @@ public class Game {
 
 						boolean checkIfSomeoneHasPishpirik = false;
 
-						for (int i = 0; i < players.length; i++) {
+						for (Player player : players) {
 
-							if (currentPlayer().equals(players[i])) {
+							if (currentPlayer().equals(player)) {
 								continue;
 							}
 
-							if (players[i].getPishpiriks() > 0) {
-								int prevPishpiriks = players[i].getPishpiriks();
-								players[i].setPishpiriks(prevPishpiriks - 1);
+							if (player.getPishpiriks() > 0) {
+								int prevPishpiriks = player.getPishpiriks();
+								player.setPishpiriks(prevPishpiriks - 1);
 								checkIfSomeoneHasPishpirik = true;
 								table.pastroLetrat();
-								
-								System.out.println(currentPlayer() + " ja prishi pishpirikin " + players[i]);
+
+								System.out.println(currentPlayer() + " ja prishi pishpirikin " + player);
 							}
 						}
 
@@ -98,13 +100,13 @@ public class Game {
 							int prevPishpiriks = currentPlayer().getPishpiriks();
 							currentPlayer().setPishpiriks(prevPishpiriks + 1);
 							table.pastroLetrat();
-							
+
 							System.out.println(currentPlayer() + " beri pishpirik me " + c.toString());
 						}
 
 						lastPlayerGetCardsFromTable = currentPlayer();
 						switchTurn();
-						
+
 						continue;
 
 					}
@@ -140,7 +142,7 @@ public class Game {
 						System.out.println(currentPlayer().toString() + " i mori letrat me " + c.toString());
 						lastPlayerGetCardsFromTable = currentPlayer();
 						table.pastroLetrat();
-						
+
 					} else {
 						table.shtoLeter(c);
 					}
@@ -150,7 +152,7 @@ public class Game {
 
 			}
 		}
-		
+
 		System.out.println("Letrat ne pile " + table.saLetraJan());
 		for (int i = 0; i < table.saLetraJan(); i++) {
 			lastPlayerGetCardsFromTable.wonCards.addCard(table.ktheLeter(i));
@@ -161,43 +163,42 @@ public class Game {
 		System.out.println("Me rezultat " + winner.getScore());
 
 		System.out.println("=================================================================");
-		
-		
-		for (int i = 0; i < players.length; i++) {
-			System.out.println(players[i] + " score=>" + players[i].getScore());
+
+		for (Player player : players) {
+			System.out.println(player + " score=> " + player.getScore());
 		}
 	}
 
 	private boolean roundNotEnd() {
 
-		return players[players.length - 1].cardsInHand() != 0;
+		return currentPlayer().cardsInHand() != 0;
 	}
 
 	private Player checkWinner() {
 
-		Player winner = players[0];
+		Player winner = players.peek();
 
-		for (int i = 0; i < players.length; i++) {
+		for (Player player : players) {
 
-			for (int j = 0; j < players[i].wonCards.count(); j++) {
-				Card card = players[i].wonCards.getCard(j);
-				countedCards(players[i], card);
+			for (int j = 0; j < player.wonCards.count(); j++) {
+				Card card = player.wonCards.getCard(j);
+				countedCards(player, card);
 			}
 
-			if (players[i].getPishpiriks() > 0) {
-				int prevScore = players[i].getScore();
-				int pishpiriks = players[i].getPishpiriks();
-				players[i].setScore(prevScore + (10 * pishpiriks));
+			if (player.getPishpiriks() > 0) {
+				int prevScore = player.getScore();
+				int pishpiriks = player.getPishpiriks();
+				player.setScore(prevScore + (10 * pishpiriks));
 			}
 
-			if (players[i].getJanarPishpiriks() > 0) {
-				int prevScore = players[i].getScore();
-				int janarPishpiriks = players[i].getJanarPishpiriks();
-				players[i].setScore(prevScore + (20 * janarPishpiriks));
+			if (player.getJanarPishpiriks() > 0) {
+				int prevScore = player.getScore();
+				int janarPishpiriks = player.getJanarPishpiriks();
+				player.setScore(prevScore + (20 * janarPishpiriks));
 			}
 
-			if (winner.getScore() < players[i].getScore()) {
-				winner = players[i];
+			if (winner.getScore() < player.getScore()) {
+				winner = player;
 			}
 		}
 
@@ -233,24 +234,29 @@ public class Game {
 	}
 
 	public Player currentPlayer() {
-		return players[turn];
+		return players.peek();
 	}
 
 	public void switchTurn() {
-		turn = 1 - turn;
+		Player p = players.remove();
+		players.add(p);
 	}
 
 	public void roundDeal() {
-		for (int i = 0; i < players.length; i++) {
-			for (int j = 0; j < 4; j++) {
-				players[i].accept(dealer.deal());
+		for (Player player : players) {
+			for (int i = 0; i < 4; i++) {
+				player.accept(dealer.deal());
 			}
+
 		}
 	}
 
 	public static void main(String[] args) {
 
-		Player[] pl = { new DummyPlayer("pl 1"), new DummyPlayer("pl 2") };
+		Deque<Player> pl = new LinkedList<>();
+
+		pl.add(new DummyPlayer("pl 1"));
+		pl.add(new HumanPlayer("pl 2"));
 
 		Game g = new Game(pl);
 

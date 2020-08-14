@@ -40,7 +40,7 @@ public class DummyPlayer extends Player {
 
 		//int numberOfCardToThrow = rnd.nextInt(cardsInHand()) + 1;
 		int numberOfCardToThrow = 0;
-		Card cardPlayed = throwCard(0);
+		Card cardPlayed = throwCard(1);
 
 		System.out.println(name + " luajti " + cardPlayed.toString());
 		

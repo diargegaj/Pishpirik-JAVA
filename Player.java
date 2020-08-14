@@ -73,7 +73,7 @@ abstract public class Player {
 
 	public Card throwCard(int cardNumber) {
 
-		Card c = hand.getCard(cardNumber);
+		Card c = hand.getCard(cardNumber - 1);
 		hand.removeCard(c);
 
 		return c;
