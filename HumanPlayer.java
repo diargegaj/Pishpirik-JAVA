@@ -1,7 +1,6 @@
 
 public class HumanPlayer extends Player {
 
-	private int score;
 
 	public HumanPlayer(String name) {
 		super(name);

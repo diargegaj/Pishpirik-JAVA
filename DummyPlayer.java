@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class DummyPlayer extends Player {
 
-	private int score;
 	Random rnd;
 
 	public DummyPlayer(String name) {
