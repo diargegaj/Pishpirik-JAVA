@@ -29,6 +29,11 @@ public class Deck {
 	public void shuffle() {
 		Collections.shuffle(pack);
 	}
+	
+	public void restartGame() {
+		Collections.shuffle(pack);
+		usedCards = 0;
+	}
 
 	public int remainingCards() {
 		return pack.size() - usedCards;
@@ -52,8 +57,26 @@ public class Deck {
 		return usedCards != pack.size();
 	}
 	
-	public void addCards(Card c) {
+	public void addCard(Card c) {
 		pack.add(c);
 	}
+	
+	public void addCard(int index, Card c) {
+		pack.add(index, c);
+	}
+	
+	public void removeCard(Card c) {
+		pack.remove(c);
+	}
+
+	public int getUsedCards() {
+		return usedCards;
+	}
+
+	public void setUsedCards(int usedCards) {
+		this.usedCards = usedCards;
+	}
+	
+	
 
 }

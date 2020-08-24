@@ -4,15 +4,15 @@ public class Pile {
 
 	private ArrayList<Card> cards = new ArrayList<>();
 	
-	public void shtoLeter(Card c) {
+	public void addCard(Card c) {
 		cards.add(c);
 	}
 	
-	public ArrayList<Card> ktheLetrat(){
+	public ArrayList<Card> getCards(){
 		return cards;
 	}
 	
-	public Card ktheLeter(int pozita) {
+	public Card getCard(int pozita) {
 	
 		if (pozita < 0 || pozita > cards.size())
 			throw new IllegalArgumentException("dergo poziten korrekte");
@@ -21,7 +21,7 @@ public class Pile {
 		return new Card(4, 1);
 	}
 	
-	public Card ktheLetrenEFundit() {
+	public Card getLastCard() {
 		
 		if (cards.size() > 0) {
 			return cards.get(cards.size() - 1);
@@ -30,11 +30,11 @@ public class Pile {
 		return null;
 	}
 	
-	public int saLetraJan() {
+	public int pileSize() {
 		return cards.size();
 	}
 
-	public void pastroLetrat() {
+	public void clearCards() {
 		cards.clear();
 	}
 	

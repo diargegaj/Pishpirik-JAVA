@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class DummyPlayer extends Player {
 
@@ -32,13 +33,13 @@ public class DummyPlayer extends Player {
 		
 //		try {
 //			System.out.println("duke analizuar... ");
-//			Thread.sleep(100);
+//			Thread.sleep(1000);
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
 
-		//int numberOfCardToThrow = rnd.nextInt(cardsInHand()) + 1;
-		Card cardPlayed = throwCard(1);
+		int numberOfCardToThrow =(cardsInHand() > 1) ? ThreadLocalRandom.current().nextInt(1, cardsInHand()) : 1;
+		Card cardPlayed = throwCard(numberOfCardToThrow);
 
 		System.out.println(name + " luajti " + cardPlayed.toString());
 		
@@ -47,6 +48,7 @@ public class DummyPlayer extends Player {
 		return cardPlayed;
 	}
 	
+
 	public String toString() {
 		return name;
 	}
